@@ -7,7 +7,7 @@ words = ["python", "programacion", "computadora", "codigo", "desarrollo", "intel
 secret_word = random.choice(words)
 
 # Número máximo de intentos permitidos
-max_attempts = 10
+max_failures = 10
 
 # Lista para almacenar las letras adivinadas
 guessed_letters = []
@@ -20,18 +20,26 @@ word_displayed ="_" * len(secret_word)
 # Mostrar la palabra parcialmente adivinada
 print (f"Palabra: {word_displayed}")
 
-for i in range(max_attempts):
+# Inicializo un contador de fallos
+fallos = 0
+
+# Mientras que el contador no alcance al máximo de fallos posibles sigue adivinando letras
+while fallos != max_failures:
     # Pedir al jugador que ingrese una letra
     letter = input ("ingresa una letra: ").lower()
     
     # Verificar si se ha insertado alguna letra
     if not letter:
        print("ERROR: No se ha ingresado ninguna letra")
+       # Incremento el contador de fallos si no se ingresa ninguna letra    
+       fallos = fallos + 1
        continue
     else:
       # Verificar si la letra ya ha sido adivinada
       if letter in guessed_letters:
          print("Ya has intentado con esa letra. Intenta con otra")
+         # Incremento el contador de fallos si se ingresa una letra que ya fue ingresada previamente     
+         fallos = fallos + 1
          continue
       
       # Agregar la letra a la lista de letras adivinadas
@@ -42,7 +50,9 @@ for i in range(max_attempts):
         print("¡Bien hecho! La letra está en la palabra.")
       else:
         print("Lo siento, la letra no está en la palabra.")
-    
+        # Incremento el contador de fallos si se ingresa una letra que ya fue ingresada previamente     
+        fallos = fallos + 1
+
       # Mostrar la palabra parcialmente adivinada
       letters = []
       for letter in secret_word:
@@ -58,7 +68,9 @@ for i in range(max_attempts):
     if word_displayed == secret_word:
        print(f"¡Felicidades! Has adivinado la palabra secreta: {secret_word}")
        break
+
+    
 else:
-    print(f"¡Oh no! Has agotado tus {max_attempts} intentos.")
+    print(f"¡Oh no! Has agotado tus {max_failures} intentos.")
     print(f"La palabra secreta era: {secret_word}")
 
